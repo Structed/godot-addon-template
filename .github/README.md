@@ -82,5 +82,5 @@ Appears under "Performance Improvements" header, and under "Breaking Changes" wi
 ```
 perf: pooled HTTP connections
 
-BREAKING CHANGE: Removed legacy ClientAPI
+breaking: Removed legacy ClientAPI
 ```
