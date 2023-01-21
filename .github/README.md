@@ -8,10 +8,18 @@ This template contains 2 workflows:
 For the workflows to run, you need to configure some secrets in your repository settings as well as make some string replacements in the workflow files.
 
 ### Environment Variables
-In `release.yml`, you need to inspect the environment variable definitions and insert your own values for Godot Asset Lib and Itch.io, respectively.
+In both `main.yml` and `release.yml`, you need to inspect environment variable definitions and insert your own values.
 
-### String Replacements
-In both `main.yml` and `release.yml`, you need to replace, just with the rest of this template repository, replace all occurrences of `ADDON_NAME` with the name of your addon! Please make sure there are no spaces, and only alphanumeric values, dashes and underscores in this sting!.
+In `main.yml`:
+- The addon name (this will affect paths)
+
+In `release.yml`:
+
+- The addon name (this will affect paths)
+- Godot Asset Lib and
+- Itch.io,
+
+respectively.
 
 ### Secrets
 #### GITHUB_TOKEN
@@ -34,7 +42,6 @@ There are more options to this. Please check out the [respective action's docume
 ## How does it work?
 ### `main.yml`
 This is the main workflow that runs on pull requests and pushes to the `main`, `master` or `develop` branches. It just does a shallow git checkout (the latest revision) and runs GUT tests.
-
 
 ### `release.yml`
 This workflow is triggered on pushes to `main` or `master` branches. It does a full git checkout (all revisions).

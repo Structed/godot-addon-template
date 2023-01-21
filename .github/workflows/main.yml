@@ -17,6 +17,9 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+env:
+  ADDON_NAME: ADDON_NAME
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -47,7 +50,7 @@ jobs:
           # e.g. 0.6 means 60% of your tests must pass
           minimum-pass: "1.0"
           # the directory containing Gut tests
-          test-dir: "res://addons/ADDON_NAME/test"
+          test-dir: 'res://addons/${{env.ADDON_NAME}}/test'
           # instead of running GUT's command line tool, you can run a GUT test scene if you have one
           # set up correctly
           # helps enable things like mouse mocking and current scene to work without any extra coding steps

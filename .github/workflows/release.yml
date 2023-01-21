@@ -13,6 +13,7 @@ permissions:
   contents: write
 
 env:
+  ADDON_NAME: ADDON_NAME
   ITCH_USERNAME: ADDON_NAME_ITCH_USER_NAME
   ITCH_GAME_ID: ADDON_NAME_ITCH_GAME_ID
   ASSET_LIB_USERNAME: ADDON_NAME_ASSET_LIB_USER_NAME
@@ -43,16 +44,16 @@ jobs:
       - name: "Write changelog"
         run: |
           CHANGELOG=""
-              if [ -e addons/ADDON_NAME/CHANGELOG.md ]
+              if [ -e addons/${{env.ADDON_NAME}}/CHANGELOG.md ]
           then
-                  CHANGELOG=$(cat addons/ADDON_NAME/CHANGELOG.md)
+                  CHANGELOG=$(cat addons/${{env.ADDON_NAME}}/CHANGELOG.md)
           fi
-              echo -e "${{steps.calculate_version.outputs.changelog}}\n\n${CHANGELOG}" > addons/ADDON_NAME/CHANGELOG.md
+              echo -e "${{steps.calculate_version.outputs.changelog}}\n\n${CHANGELOG}" > addons/${{env.ADDON_NAME}}/CHANGELOG.md
         if: github.ref == 'refs/heads/main' && steps.calculate_version.outputs.new_version != ''
 
       - name: "Update version in plugin.cfg"
         run: |
-              sed -i -re 's/version=".+$/version="${{ steps.calculate_version.outputs.new_version }}"/gi' addons/ADDON_NAME/plugin.cfg
+              sed -i -re 's/version=".+$/version="${{ steps.calculate_version.outputs.new_version }}"/gi' addons/${{env.ADDON_NAME}}/plugin.cfg
         if: steps.calculate_version.outputs.new_version != ''
 
       - name: "Commit"
@@ -86,8 +87,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ADDON_NAME-${{ steps.create_version.outputs.new_tag }}
-          path: addons/ADDON_NAME/
+          name: ${{env.ADDON_NAME}}-${{ steps.create_version.outputs.new_tag }}
+          path: addons/${{env.ADDON_NAME}}/
           if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`
         if: steps.create_version.outputs.new_version != ''
 
@@ -122,8 +123,8 @@ jobs:
       # Using https://github.com/KikimoraGames/itch-publish
       - uses: actions/download-artifact@v3
         with:
-          name: ADDON_NAME-${{ steps.calculate_version.outputs.previous_tag }}
-          path: addons/ADDON_NAME/
+          name: ${{env.ADDON_NAME}}-${{ steps.calculate_version.outputs.previous_tag }}
+          path: addons/${{env.ADDON_NAME}}/
 
       - uses: KikimoraGames/itch-publish@v0.0.3
         with:
