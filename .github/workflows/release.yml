@@ -30,21 +30,16 @@ jobs:
               fetch-depth: 0
               token: ${{ secrets.GITHUB_TOKEN }}
 
-          - name: Calculate version
-            id: calculate_version
-            uses: mathieudutour/github-tag-action@v6.0
-            with:
-              tag_prefix: ""
-              github_token: ${{ secrets.GITHUB_TOKEN }}
-              dry_run: true
-              default_bump: false
-              custom_release_rules: |
-                  fix:patch:Bug Fixes,
-                  hotfix:patch:Bug Fixes,
-                  feature:minor:Features,
-                  change:minor:Changes,
-                  breaking:major:Breaking Changes,
-                  major:major:Major Changes,
+      - name: Calculate version
+        id: calculate_version
+        uses: mathieudutour/github-tag-action@v6.1
+        with:
+          tag_prefix: ""
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          dry_run: true
+          default_bump: false
+          custom_release_rules: |
+            "fix:patch:Bug Fixes,hotfix:patch:Bug Fixes,feature:minor:Features,change:minor:Changes,breaking:major:Breaking Changes,major:major:Major Changes"
 
           - name: "Write changelog"
             run: |
