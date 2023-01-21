@@ -21,14 +21,14 @@ env:
 
 jobs:
   prerelease:
-      if: "github.event.head_commit.message != 'Release preparation: storing Version and Changelog'"
-      name: Preparing release
-      runs-on: ubuntu-latest
-      steps:
-          - uses: actions/checkout@v3
-            with:
-              fetch-depth: 0
-              token: ${{ secrets.GITHUB_TOKEN }}
+    if: "github.event.head_commit.message != 'Release preparation: storing Version and Changelog'"
+    name: Preparing release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Calculate version
         id: calculate_version
@@ -41,30 +41,30 @@ jobs:
           custom_release_rules: |
             "fix:patch:Bug Fixes,hotfix:patch:Bug Fixes,feature:minor:Features,change:minor:Changes,breaking:major:Breaking Changes,major:major:Major Changes"
 
-          - name: "Write changelog"
-            run: |
-              CHANGELOG=""
+      - name: "Write changelog"
+        run: |
+          CHANGELOG=""
               if [ -e addons/ADDON_NAME/CHANGELOG.md ]
-              then
+          then
                   CHANGELOG=$(cat addons/ADDON_NAME/CHANGELOG.md)
-              fi
+          fi
               echo -e "${{steps.calculate_version.outputs.changelog}}\n\n${CHANGELOG}" > addons/ADDON_NAME/CHANGELOG.md
-            if: github.ref == 'refs/heads/main' && steps.calculate_version.outputs.new_version != ''
+        if: github.ref == 'refs/heads/main' && steps.calculate_version.outputs.new_version != ''
 
-          - name: "Update version in plugin.cfg"
-            run: |
+      - name: "Update version in plugin.cfg"
+        run: |
               sed -i -re 's/version=".+$/version="${{ steps.calculate_version.outputs.new_version }}"/gi' addons/ADDON_NAME/plugin.cfg
-            if: steps.calculate_version.outputs.new_version != ''
+        if: steps.calculate_version.outputs.new_version != ''
 
-          - name: "Commit"
-            uses: EndBug/add-and-commit@v7.2.1
-            with:
-              message: 'Release preparation: storing Version and Changelog'
-              push: true
-            if: steps.calculate_version.outputs.new_version != ''
+      - name: "Commit"
+        uses: EndBug/add-and-commit@v7.2.1
+        with:
+          message: 'Release preparation: storing Version and Changelog'
+          push: true
+        if: steps.calculate_version.outputs.new_version != ''
 
   release:
-      # Create release only after the version was bumped and release notes added:
+    # Create release only after the version was bumped and release notes added:
     if: "github.event.head_commit.message == 'Release preparation: storing Version and Changelog'"
     runs-on: ubuntu-latest
 
@@ -148,14 +148,14 @@ jobs:
           id: calculate_version
           uses: mathieudutour/github-tag-action@v6.0
           with:
-              tag_prefix: "v"
-              github_token: ${{ secrets.GITHUB_TOKEN }}
-              dry_run: true
-              default_bump: false
+            tag_prefix: "v"
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+            dry_run: true
+            default_bump: false
 
       - name: Set Version
         run: |
-            echo "version=${{ steps.calculate_version.outputs.previous_tag }}" >> $GITHUB_ENV
+          echo "version=${{ steps.calculate_version.outputs.previous_tag }}" >> $GITHUB_ENV
 
       - name: Godot Asset Lib
         uses: deep-entertainment/godot-asset-lib-action@v0.4.0
