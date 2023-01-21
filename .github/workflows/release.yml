@@ -16,7 +16,6 @@ env:
   ITCH_USERNAME: ADDON_NAME_ITCH_USER_NAME
   ITCH_GAME_ID: ADDON_NAME_ITCH_GAME_ID
   ASSET_LIB_USERNAME: ADDON_NAME_ASSET_LIB_USER_NAME
-  ASSET_LIB_PASSSWORD: ${{ secrets.ASSET_STORE_PASSWORD }}
   ASSET_LIB_ASSET_ID: ADDON_NAME_ASSET_LIB_ASSET_ID
 
 jobs:
@@ -161,5 +160,5 @@ jobs:
         uses: deep-entertainment/godot-asset-lib-action@v0.4.0
         with:
           username: ${{ env.ASSET_LIB_USERNAME }}
-          password: ${{ env.ASSET_LIB_PASSSWORD }}
+          password: ${{ secrets.ASSET_LIB_PASSWORD }}
           assetId: ${{ env.ASSET_LIB_ASSET_ID }}
