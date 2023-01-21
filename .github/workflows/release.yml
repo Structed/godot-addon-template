@@ -9,6 +9,9 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 env:
   ITCH_USERNAME: ADDON_NAME_ITCH_USER_NAME
   ITCH_GAME_ID: ADDON_NAME_ITCH_GAME_ID
