@@ -21,6 +21,23 @@ In `release.yml`:
 
 respectively.
 
+### Configuration Files
+
+#### AssetLib
+Please refer to the documentation of the [Godot Asset Library action](https://github.com/marketplace/actions/godot-asset-lib) for configuration options.
+
+If you are using the default configuration, at the very least you need to create a file called `.asset-template.json.hb` in the root of the repository:
+
+```handlebars
+{
+  "version_string": "{{ env.version }}",
+  "download_commit": "{{ env.GITHUB_SHA }}",
+  "browse_url": "{{ context.repository.html_url }}",
+  "issues_url": "{{ context.repository.html_url }}/issues",
+  "icon_url": ""
+}
+```
+
 ### Secrets
 #### GITHUB_TOKEN
 [`GITHUB_TOKEN`](https://docs.github.com/en/actions/security-guides/automatic-token-authentication) is an automatically injected secret, which is only valid for the time of the current action run. However, in it's default configuration, there are no write permissions. This is why there is a configuration in the `release.yml` configuration to assign this permission for the scope of this workflow.
