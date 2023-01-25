@@ -54,7 +54,7 @@ jobs:
 
       - name: "Update version in plugin.cfg"
         run: |
-              sed -i -re 's/version=".+$/version="${{ steps.calculate_version.outputs.new_version }}"/gi' addons/${{env.ADDON_NAME}}/plugin.cfg
+          sed -i -re 's/version=".+$/version="${{ steps.calculate_version.outputs.new_version }}"/gi' addons/${{env.ADDON_NAME}}/plugin.cfg
         if: steps.calculate_version.outputs.new_version != ''
 
       - name: "Commit"
