@@ -38,7 +38,15 @@ If you are using the default configuration, at the very least you need to create
 }
 ```
 
-### Secrets
+### Secrets#### PAT
+Because we're committing back from the workflow to the repo, you need to provide a "Personal Access Token" or "PAT" to the workflow. This is a token that allows the workflow to commit back to the repo. You can create a PAT in your GitHub settings. [See the documentation](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token).
+This PAT needs to have the `repo` scope.
+
+Once you have created this PAT, you need to add it to the repository secrets as `PAT`.
+
+##### Why not use `GITHUB_TOKEN`?
+`GITHUB_TOKEN` does not allow commits back to the same repo for security reasons. Hence, we need this specific PAT to allow committing back.
+
 #### GITHUB_TOKEN
 [`GITHUB_TOKEN`](https://docs.github.com/en/actions/security-guides/automatic-token-authentication) is an automatically injected secret, which is only valid for the time of the current action run. However, in it's default configuration, there are no write permissions. This is why there is a configuration in the `release.yml` configuration to assign this permission for the scope of this workflow.
 
